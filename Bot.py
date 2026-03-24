@@ -141,6 +141,7 @@ await client.send_message(
 try:
 spam_chats.remove(chat_id)
 except:
+"✪ ᴄᴏᴍᴍᴀɴᴅ: /mentio@client.on(events.NewMessage...
 passnall\n" \
 "✪ ᴄᴏᴍᴍᴀɴᴅ: /utag\n" \
 "✪ ᴄᴏᴍᴍᴀɴᴅ: @all\n" \
