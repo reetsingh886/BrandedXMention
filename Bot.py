@@ -76,26 +76,7 @@ async def help(event):
     )
 
 
-@client.on(events.NewMessage(pattern="^/owner$"))
-async def owner(event):
-    if not event.is_private:
-        return await event.respond("ᴅᴇᴀʀ sᴛᴀʀᴛ ᴍᴇ ɪɴ ᴘᴍ ᴛᴏ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ 🥺")
-
-    helptext = "✪ ᴏᴡɴᴇʀ ᴍᴇɴᴜ ᴏғ ᴀʟᴇxᴀ ᴍᴇɴᴛɪᴏɴ\n\n✪ ᴍʏ ᴏᴡɴᴇʀ ɪs [ʙʀᴀɴᴅᴇᴅ ʙᴏᴛ](https://t.me/BRANDRD_BOT)\n✪ ᴏғғɪᴄɪᴀʟ ᴍᴇᴍʙᴇʀ ᴏғ ʙʀᴀɴᴅᴇᴅ\n✪ ʏᴏᴜᴛᴜʙᴇ [ᴄʜᴀɴɴᴇʟ](https://youtube.com/TrickyBranded)\n✪ ғᴜᴛᴜʀᴇ ᴀɴᴇsᴛʜᴇᴛɪᴄ."
-
-    await event.reply(
-        helptext,
-        link_preview=False,
-        buttons=(
-            [
-                Button.url("❤️‍🔥 ꜱᴜᴘᴘᴏʀᴛ 💫", "https://t.me/BotsSupport_36"),
-                Button.url("❤️‍🔥 ᴜᴘᴅᴀᴛᴇs 💫", "https://t.me/BOTxBOOSTER"),
-            ]
-        ),
-    )
-
-
-@client.on(events.NewMessage(pattern="^(/mentionall|/utag|@all) ?(.*)"))
+@clie@client.on(events.NewMessage(pattern="^(/mentionall|/utag|@all) ?(.*)"))
 async def mentionall(event):
     chat_id = event.chat_id
 
@@ -118,41 +99,43 @@ async def mentionall(event):
     if not is_admin:
         return await event.respond("ᴏɴʟʏ ᴀᴅᴍɪɴs ᴄᴀɴ ᴍᴇɴᴛɪᴏɴ ᴀʟʟ")
 
+    # 🔥 TEXT HANDLE
     if event.pattern_match.group(2) and event.is_reply:
         return await event.respond("ɢɪᴠᴇ ᴍᴇ ᴏɴᴇ ᴀʀɢᴜᴍᴇɴᴛ")
 
     elif event.pattern_match.group(2):
-        mode = "text_on_cmd"
-        msg = event.pattern_match.group(2)
+        user_text = event.pattern_match.group(2)
 
     elif event.is_reply:
-        mode = "text_on_reply"
-        msg = await event.get_reply_message()
-        if msg == None:
-            return await event.respond(
-                "ɪ ᴄᴀɴ'ᴛ ᴍᴇɴᴛɪᴏɴ ᴍᴇᴍʙᴇʀs ꜰᴏʀ ᴏʟᴅᴇʀ ᴍᴇssᴀɢᴇs!"
-            )
+        reply_msg = await event.get_reply_message()
+        if reply_msg == None:
+            return await event.respond("ɪ ᴄᴀɴ'ᴛ ᴍᴇɴᴛɪᴏɴ ᴍᴇᴍʙᴇʀs!")
+        user_text = reply_msg.text
+
     else:
-        return await event.respond(
-            "ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴏʀ ɢɪᴠᴇ ᴍᴇ sᴏᴍᴇ ᴛᴇxᴛ"
-        )
+        return await event.respond("ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴏʀ ɢɪᴠᴇ ᴍᴇ sᴏᴍᴇ ᴛᴇxᴛ")
 
     spam_chats.append(chat_id)
+
     usrnum = 0
     usrtxt = ""
+    done = 0
 
     async for usr in client.iter_participants(chat_id):
         if chat_id not in spam_chats:
             break
 
         usrnum += 1
-        usrtxt += f"[{usr.first_name}](tg://user?id={usr.id}) "
+        done += 1
 
+        name = usr.first_name if usr.first_name else "User"
+        usrtxt += f"⊙ [{name}](tg://user?id={usr.id})\n"
+
+        # 🔥 5 users per batch
         if usrnum == 5:
-            if mode == "text_on_cmd":
-                await client.send_message(chat_id, f"{usrtxt}\n\n{msg}")
-            else:
-                await msg.reply(usrtxt)
+            final_text = f"@all {user_text}\n\n{usrtxt}\n📢 TAGGING {done} USERS DONE..."
+
+            await client.send_message(chat_id, final_text)
 
             await asyncio.sleep(2)
             usrnum = 0
@@ -161,7 +144,26 @@ async def mentionall(event):
     try:
         spam_chats.remove(chat_id)
     except:
-        pass
+        passnt.on(events.NewMessage(pattern="^/owner$"))
+async def owner(event):
+    if not event.is_private:
+        return await event.respond("ᴅᴇᴀʀ sᴛᴀʀᴛ ᴍᴇ ɪɴ ᴘᴍ ᴛᴏ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ 🥺")
+
+    helptext = "✪ ᴏᴡɴᴇʀ ᴍᴇɴᴜ ᴏғ ᴀʟᴇxᴀ ᴍᴇɴᴛɪᴏɴ\n\n✪ ᴍʏ ᴏᴡɴᴇʀ ɪs [ʙʀᴀɴᴅᴇᴅ ʙᴏᴛ](https://t.me/BRANDRD_BOT)\n✪ ᴏғғɪᴄɪᴀʟ ᴍᴇᴍʙᴇʀ ᴏғ ʙʀᴀɴᴅᴇᴅ\n✪ ʏᴏᴜᴛᴜʙᴇ [ᴄʜᴀɴɴᴇʟ](https://youtube.com/TrickyBranded)\n✪ ғᴜᴛᴜʀᴇ ᴀɴᴇsᴛʜᴇᴛɪᴄ."
+
+    await event.reply(
+        helptext,
+        link_preview=False,
+        buttons=(
+            [
+                Button.url("❤️‍🔥 ꜱᴜᴘᴘᴏʀᴛ 💫", "https://t.me/BotsSupport_36"),
+                Button.url("❤️‍🔥 ᴜᴘᴅᴀᴛᴇs 💫", "https://t.me/BOTxBOOSTER"),
+            ]
+        ),
+    )
+
+
+
 
 
 @client.on(events.NewMessage(pattern="^/admins|/admin|@admin|@admins ?(.*)"))
