@@ -76,7 +76,7 @@ async def help(event):
     )
 
 
-@clie@client.on(events.NewMessage(pattern="^(/mentionall|/utag|@all) ?(.*)"))
+@client.on(events.NewMessage(pattern="^(/mentionall|/utag|@all) ?(.*)"))
 async def mentionall(event):
     chat_id = event.chat_id
 
