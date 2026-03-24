@@ -69,8 +69,8 @@ async def help(event):
         link_preview=False,
         buttons=(
             [
-                Button.url("❤️‍🔥 ꜱᴜᴘᴘᴏʀᴛ 💫", "https://t.me/BRANDED_WORLD"),
-                Button.url("❤️‍🔥 ʏᴏᴜᴛᴜʙᴇ 💫", "https://youtube.com/@TrickyBranded?si=LiWu6DkLNs4bcZn6"),
+                Button.url("❤️‍🔥 ꜱᴜᴘᴘᴏʀᴛ 💫", "https://t.me/BotsSupport_36"),
+                Button.url("❤️‍🔥 ᴜᴘᴅᴀᴛᴇs 💫", "https://t.me/BOTxBOOSTER"),
             ]
         ),
     )
@@ -88,8 +88,8 @@ async def owner(event):
         link_preview=False,
         buttons=(
             [
-                Button.url("❤️‍🔥 ꜱᴜᴘᴘᴏʀᴛ 💫", "https://t.me/BRANDED_WORLD"),
-                Button.url("❤️‍🔥 ʏᴏᴜᴛᴜʙᴇ 💫", "https://youtube.com/TrickyBranded"),
+                Button.url("❤️‍🔥 ꜱᴜᴘᴘᴏʀᴛ 💫", "https://t.me/BotsSupport_36"),
+                Button.url("❤️‍🔥 ᴜᴘᴅᴀᴛᴇs 💫", "https://t.me/BOTxBOOSTER"),
             ]
         ),
     )
