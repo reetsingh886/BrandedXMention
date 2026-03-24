@@ -1,181 +1,260 @@
 import os, logging, asyncio
-from telethon import Button, TelegramClient, events
-from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator, ChannelParticipantsAdmins
+from telethon import Button
+from telethon import TelegramClient, events
+from telethon.tl.types import ChannelParticipantAdmin
+from telethon.tl.types import ChannelParticipantCreator
+from telethon.tl.types import ChannelParticipantsAdmins
 from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.errors import UserNotParticipantError
+from pyrogram import Client, filters
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 
-logging.basicConfig(level=logging.INFO)
-LOGGER = logging.getLogger(__name__)
+logging.basicConfig(
+level=logging.INFO, format="%(name)s - [%(levelname)s] - %(message)s"
+)
+LOGGER = logging.getLogger(name)
 
 api_id = int(os.environ.get("APP_ID", ""))
 api_hash = os.environ.get("API_HASH", "")
 bot_token = os.environ.get("BOT_TOKEN", "")
-
 client = TelegramClient("client", api_id, api_hash).start(bot_token=bot_token)
 spam_chats = []
 
-
-# ================= START =================
 @client.on(events.NewMessage(pattern="^/start$"))
 async def start(event):
-    if not event.is_private:
-        return await event.respond("ɪ ᴀᴍ ᴀʟɪᴠᴇ 🥺")
+if not event.is_private:
+return await event.respond("ɪ ᴀᴍ ᴀʟɪᴠᴇ 🥺")
 
-    await event.client.send_file(
-        event.chat_id,
-        file="https://files.catbox.moe/rjk5ma.jpg",
-        caption="━━━━━━━━━━━━━━━━━━━━━━━\n\n"
-                "✪ ɪ ᴀᴍ ᴀ ᴛᴇʟᴇɢʀᴀᴍ ᴍᴇɴᴛɪᴏɴ ʙᴏᴛ 🤖\n"
-                "✪ ɪ ᴄᴀɴ ᴛᴀɢ ᴀʟʟ ᴍᴇᴍʙᴇʀs ɪɴ ᴀ ɢʀᴏᴜᴘ\n\n"
-                "✪ ᴜsᴇ /ʜᴇʟᴘ ᴛᴏ sᴇᴇ ᴀʟʟ ᴄᴏᴍᴍᴀɴᴅs\n\n"
-                "━━━━━━━━━━━━━━━━━━━━━━━",
-        buttons=[
-            [Button.url("❤️‍🔥 ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ 💫", "https://t.me/Branded_MentionBot?startgroup=true")],
-            [
-                Button.url("❤️‍🔥 ꜱᴜᴘᴘᴏʀᴛ 💫", "https://t.me/BotsSupport_36"),
-                Button.url("❤️‍🔥 ᴜᴘᴅᴀᴛᴇs 💫", "https://t.me/BOTxBOOSTER")
-            ],
-            [
-                Button.url("❤️‍🔥 ᴏᴡɴᴇʀ 💫", "https://t.me/iamthakur007")
-            ]
-        ]
-    )
+await event.client.send_file(
+event.chat_id,
+file="https://files.catbox.moe/rjk5ma.jpg",
+caption="━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+"✪ ɪ ᴀᴍ ᴀ ᴛᴇʟᴇɢʀᴀᴍ ᴍᴇɴᴛɪᴏɴ ʙᴏᴛ 🤖\n"
+"✪ ɪ ᴄᴀɴ ᴛᴀɢ ᴀʟʟ ᴍᴇᴍʙᴇʀs ɪɴ ᴀ ɢʀᴏᴜᴘ\n\n"
+"✪ ᴜsᴇ /ʜᴇʟᴘ ᴛᴏ sᴇᴇ ᴀʟʟ ᴄᴏᴍᴍᴀɴᴅs\n\n"
+"━━━━━━━━━━━━━━━━━━━━━━━",
+link_preview=False,
+buttons=[
+[Button.url("❤️‍🔥 ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ 💫", "https://t.me/Branded_MentionBot?startgroup=true")],
+[
+Button.url("❤️‍🔥 ꜱᴜᴘᴘᴏʀᴛ 💫", "https://t.me/BotsSupport_36"),
+Button.url("❤️‍🔥 ᴜᴘᴅᴀᴛᴇs 💫", "https://t.me/BOTxBOOSTER")
+],
+[
+Button.url("❤️‍🔥 ᴏᴡɴᴇʀ 💫", "https://t.me/iamthakur007")
+]
+]
+)
 
-
-# ================= HELP =================
 @client.on(events.NewMessage(pattern="^/help$"))
 async def help(event):
-    if not event.is_private:
-        return await event.respond("ᴘᴍ ᴍᴇ ғᴏʀ ʜᴇʟᴘ 🥺")
+if not event.is_private:
+return await event.respond("ᴅᴇᴀʀ sᴛᴀʀᴛ ᴍᴇ ɪɴ ᴘᴍ ᴛᴏ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ 🥺")
 
-    helptext = (
-        "✪ ʜᴇʟᴘ ᴍᴇɴᴜ ᴏғ ᴀʟᴇxᴀ ᴍᴇɴᴛɪᴏɴ\n\n"
-        "✪ ᴄᴏᴍᴍᴀɴᴅ: /mentionall\n"
-        "✪ ᴄᴏᴍᴍᴀɴᴅ: /utag\n"
-        "✪ ᴄᴏᴍᴍᴀɴᴅ: @all\n"
-        "✪ ᴄᴏᴍᴍᴀɴᴅ: /admin\n"
-        "✪ ᴄᴏᴍᴍᴀɴᴅ: /cancel\n\n"
-        "✪ Example:\n"
-        "/mentionall Good Morning\n"
-        "/utag Hello\n"
-        "@all Hi everyone"
-    )
+helptext = "✪ ʜᴇʟᴘ ᴍᴇɴᴜ ᴏғ ᴀʟᴇxᴀ ᴍᴇɴᴛɪᴏɴ\n\n" \
+"✪ ᴄᴏᴍᴍᴀɴᴅ: /mentio@client.on(events.NewMessage(pattern="^(/mentionall|/utag|@all) ?(.*)"))
 
-    await event.reply(helptext)
-
-
-# ================= MENTION ALL =================
-@client.on(events.NewMessage(pattern="^(/mentionall|/utag|@all) ?(.*)"))
 async def mentionall(event):
-    chat_id = event.chat_id
+chat_id = event.chat_id
 
-    if event.is_private:
-        return await event.respond("ɢʀᴏᴜᴘ ᴏɴʟʏ ❌")
+if event.is_private:
+return await event.respond(
+"ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴄᴀɴ ʙᴇ ᴜsᴇ ɪɴ ɢʀᴏᴜᴘs ᴀɴᴅ ᴄʜᴀɴɴᴇʟs"
+)
 
-    try:
-        p = await client(GetParticipantRequest(chat_id, event.sender_id))
-        if not isinstance(p.participant, (ChannelParticipantAdmin, ChannelParticipantCreator)):
-            return await event.respond("ᴀᴅᴍɪɴ ᴏɴʟʏ ❌")
-    except:
-        return await event.respond("ᴀᴅᴍɪɴ ᴏɴʟʏ ❌")
+✅ Admin Check
 
-    if event.pattern_match.group(2):
-        user_text = event.pattern_match.group(2)
-    elif event.is_reply:
-        reply = await event.get_reply_message()
-        user_text = reply.text if reply else ""
-    else:
-        return await event.respond("ɢɪᴠᴇ ᴛᴇxᴛ ❌")
+is_admin = False
+try:
+partici_ = await client(GetParticipantRequest(chat_id, event.sender_id))
+except UserNotParticipantError:
+is_admin = False
+else:
+if isinstance(
+partici_.participant, (ChannelParticipantAdmin, ChannelParticipantCreator)
+):
+is_admin = True
 
-    spam_chats.append(chat_id)
+if not is_admin:
+return await event.respond("ᴏɴʟʏ ᴀᴅᴍɪɴs ᴄᴀɴ ᴍᴇɴᴛɪᴏɴ ᴀʟʟ")
 
-    count = 0
-    text = ""
-    done = 0
+✅ TEXT HANDLE
 
-    async for user in client.iter_participants(chat_id):
-        if chat_id not in spam_chats:
-            break
+if event.pattern_match.group(2) and event.is_reply:
+return await event.respond("ɢɪᴠᴇ ᴍᴇ ᴏɴᴇ ᴀʀɢᴜᴍᴇɴᴛ")
 
-        count += 1
-        done += 1
+elif event.pattern_match.group(2):
+user_text = event.pattern_match.group(2)
 
-        name = user.first_name or "User"
-        text += f"⊙ [{name}](tg://user?id={user.id})\n"
+elif event.is_reply:
+reply_msg = await event.get_reply_message()
+if reply_msg is None:
+return await event.respond("ɪ ᴄᴀɴ'ᴛ ᴍᴇɴᴛɪᴏɴ ᴍᴇᴍʙᴇʀs!")
+user_text = reply_msg.text
 
-        if count == 5:
-            await client.send_message(
-                chat_id,
-                f"@all {user_text}\n\n{text}\n📢 TAGGING {done} USERS DONE...",
-                link_preview=False
-            )
-            await asyncio.sleep(2)
-            count = 0
-            text = ""
+else:
+return await event.respond("ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴏʀ ɢɪᴠᴇ ᴍᴇ sᴏᴍᴇ ᴛᴇxᴛ")
 
-    if text:
-        await client.send_message(
-            chat_id,
-            f"@all {user_text}\n\n{text}\n📢 TAGGING {done} USERS DONE...",
-            link_preview=False
-        )
+spam_chats.append(chat_id)
 
-    spam_chats.remove(chat_id)
+usrnum = 0
+usrtxt = ""
+done = 0
 
+async for usr in client.iter_participants(chat_id):
+if chat_id not in spam_chats:
+break
 
-# ================= ADMIN TAG =================
-@client.on(events.NewMessage(pattern="^(/admin|/admins|@admin|@admins) ?(.*)"))
-async def admin_tag(event):
-    chat_id = event.chat_id
+usrnum += 1    
+done += 1    
 
-    if event.is_private:
-        return await event.respond("ɢʀᴏᴜᴘ ᴏɴʟʏ ❌")
+name = usr.first_name if usr.first_name else "User"    
+usrtxt += f"⊙ [{name}](tg://user?id={usr.id})\n"    
 
-    spam_chats.append(chat_id)
+# 🔥 Every 5 users    
+if usrnum == 5:    
+    final_text = f"@all {user_text}\n\n{usrtxt}\n📢 TAGGING {done} USERS DONE..."    
 
-    count = 0
-    text = ""
-    done = 0
+    await client.send_message(    
+        chat_id,    
+        final_text,    
+        link_preview=False  # 🔥 FIX    
+    )    
 
-    async for user in client.iter_participants(chat_id, filter=ChannelParticipantsAdmins):
-        if chat_id not in spam_chats:
-            break
+    await asyncio.sleep(2)    
+    usrnum = 0    
+    usrtxt = ""
 
-        count += 1
-        done += 1
+✅ LAST LEFT USERS FIX (IMPORTANT)
 
-        name = user.first_name or "Admin"
-        text += f"⊙ [{name}](tg://user?id={user.id})\n"
+if usrtxt:
+final_text = f"@all {user_text}\n\n{usrtxt}\n📢 TAGGING {done} USERS DONE..."
 
-        if count == 5:
-            await client.send_message(
-                chat_id,
-                f"Admins 👇\n\n{text}\n📢 TAGGING {done} ADMINS DONE...",
-                link_preview=False
-            )
-            await asyncio.sleep(2)
-            count = 0
-            text = ""
+await client.send_message(    
+    chat_id,    
+    final_text,    
+    link_preview=False    
+)
 
-    if text:
-        await client.send_message(
-            chat_id,
-            f"Admins 👇\n\n{text}\n📢 TAGGING {done} ADMINS DONE...",
-            link_preview=False
-        )
+✅ CLEANUP
 
-    spam_chats.remove(chat_id)
+try:
+spam_chats.remove(chat_id)
+except:
+passnall\n" \
+"✪ ᴄᴏᴍᴍᴀɴᴅ: /utag\n" \
+"✪ ᴄᴏᴍᴍᴀɴᴅ: @all\n" \
+"✪ ᴄᴏᴍᴍᴀɴᴅ: /cancel ᴛᴏ ᴄᴀɴᴄᴇʟ ɢᴏɪɴɢ ᴏɴ ᴘʀᴏᴄᴇss.\n" \
+"✪ ᴄᴏᴍᴍᴀɴᴅ /admin ᴛᴏ ᴍᴇɴᴛɪᴏɴ ᴀʟʟ ᴀᴅᴍɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ\n" \
+"✪ Yᴏᴜ ᴄᴀɴ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴡɪᴛʜ ᴛᴇxᴛ ᴡʜᴀᴛ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴍᴇɴᴛɪᴏɴ ᴏᴛʜᴇʀs.\n" \
+"✪ Example: /mentionall Good Morning!\n" \
+"✪ Example: /utag Hello\n" \
+"✪ Example: @all Hi everyone\n" \
+"✪ Yᴏᴜ ᴄᴀɴ ᴜsᴇ ᴛʜɪs ᴀs ᴀ ʀᴇᴘʟʏ ᴛᴏ ᴀɴʏ ᴍᴇssᴀɢᴇ."
 
+await event.reply(
+helptext,
+link_preview=False,
+buttons=(
+[
+Button.url("❤️‍🔥 ꜱᴜᴘᴘᴏʀᴛ 💫", "https://t.me/BotsSupport_36"),
+Button.url("❤️‍🔥 ᴜᴘᴅᴀᴛᴇs 💫", "https://t.me/BOTxBOOSTER"),
+]
+),
+)
 
-# ================= CANCEL =================
+@client.on(events.NewMessage(pattern="^(/mentionall|/utag|@all) ?(.*)"))
+
+passnt.on(events.NewMessage(pattern="^/owner$"))
+
+async def owner(event):
+if not event.is_private:
+return await event.respond("ᴅᴇᴀʀ sᴛᴀʀᴛ ᴍᴇ ɪɴ ᴘᴍ ᴛᴏ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ 🥺")
+
+helptext = "✪ ᴏᴡɴᴇʀ ᴍᴇɴᴜ ᴏғ ᴀʟᴇxᴀ ᴍᴇɴᴛɪᴏɴ\n\n✪ ᴍʏ ᴏᴡɴᴇʀ ɪs ʙʀᴀɴᴅᴇᴅ ʙᴏᴛ\n✪ ᴏғғɪᴄɪᴀʟ ᴍᴇᴍʙᴇʀ ᴏғ ʙʀᴀɴᴅᴇᴅ\n✪ ʏᴏᴜᴛᴜʙᴇ ᴄʜᴀɴɴᴇʟ\n✪ ғᴜᴛᴜʀᴇ ᴀɴᴇsᴛʜᴇᴛɪᴄ."
+
+await event.reply(
+helptext,
+link_preview=False,
+buttons=(
+[
+Button.url("❤️‍🔥 ꜱᴜᴘᴘᴏʀᴛ 💫", "https://t.me/BotsSupport_36"),
+Button.url("❤️‍🔥 ᴜᴘᴅᴀᴛᴇs 💫", "https://t.me/BOTxBOOSTER"),
+]
+),
+)
+
+@client.on(events.NewMessage(pattern="^/admins|/admin|@admin|@admins ?(.*)"))
+async def _(event):
+chat_id = event.chat_id
+if event.is_private:
+return await event.respond("sᴏʀʀʏ ʏᴏᴜ ᴄᴀɴ ᴍᴇɴᴛɪᴏɴ ᴀᴅᴍɪɴ ᴏɴʟʏ ɪɴ ɢʀᴏᴜᴘ")
+
+is_admin = False
+try:
+partici_ = await client(GetParticipantRequest(event.chat_id, event.sender_id))
+except UserNotParticipantError:
+is_admin = False
+else:
+if isinstance(
+partici_.participant, (ChannelParticipantAdmin, ChannelParticipantCreator)
+):
+is_admin = True
+if not is_admin:
+return await event.respond("ᴏɴʟʏ ᴀᴅᴍɪɴ ᴄᴀɴ ᴍᴇɴᴛɪᴏɴ ɢʀᴏᴜᴘ ᴀᴅᴍɪɴs")
+
+if event.pattern_match.group(1) and event.is_reply:
+return await event.respond("ɢɪᴠᴇ sᴏᴍᴇ ᴛᴇxᴛ ᴛᴏ ᴍᴇɴᴛɪᴏɴ")
+elif event.pattern_match.group(1):
+mode = "text_on_cmd"
+msg = event.pattern_match.group(1)
+elif event.is_reply:
+mode = "text_on_reply"
+msg = await event.get_reply_message()
+if msg == None:
+return await event.respond(
+"ɪ ᴄᴀɴ'ᴛ ᴍᴇɴᴛɪᴏɴ ᴍᴇᴍʙᴇʀs ꜰᴏʀ ᴏʟᴅᴇʀ ᴍᴇssᴀɢᴇs! (ᴍᴇssᴀɢᴇs ᴡʜɪᴄʜ ᴀʀᴇ sᴇɴᴛ ʙᴇꜰᴏʀᴇ ɪ'ᴍ ᴀᴅᴅᴇᴅ ᴛᴏ ɢʀᴏᴜᴘ)"
+)
+else:
+return await event.respond(
+"ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴏʀ ɢɪᴠᴇ ᴍᴇ sᴏᴍᴇ ᴛᴇxᴛ ᴛᴏ ᴍᴇɴᴛɪᴏɴ ᴏᴛʜᴇʀs!"
+)
+
+spam_chats.append(chat_id)
+usrnum = 0
+usrtxt = ""
+chat = await event.get_input_chat()
+async for x in client.iter_participants(chat, filter=ChannelParticipantsAdmins):
+if not chat_id in spam_chats:
+break
+usrnum += 1
+usrtxt += f" \n {x.first_name}"
+if usrnum == 5:
+if mode == "text_on_cmd":
+txt = f"{usrtxt}\n\n{msg}"
+await client.send_message(chat_id, txt)
+elif mode == "text_on_reply":
+await msg.reply(usrtxt)
+await asyncio.sleep(2)
+usrnum = 0
+usrtxt = ""
+try:
+spam_chats.remove(chat_id)
+except:
+pass
+
 @client.on(events.NewMessage(pattern="^/cancel$"))
-async def cancel(event):
-    if event.chat_id in spam_chats:
-        spam_chats.remove(event.chat_id)
-        await event.respond("sᴛᴏᴘᴘᴇᴅ ✅")
-    else:
-        await event.respond("ɴᴏ ᴘʀᴏᴄᴇss ❌")
+async def cancel_spam(event):
+if not event.chat_id in spam_chats:
+return await event.respond("ᴛʜᴇʀᴇ ɪs ɴᴏ ᴘʀᴏᴄᴄᴇss ᴏɴ ɢᴏɪɴɢ...")
+else:
+try:
+spam_chats.remove(event.chat_id)
+except:
+pass
+return await event.respond("sᴛᴏᴘᴘᴇᴅ.")
 
-
-print("🔥 BOT WORKING 🔥")
+print(">> ʙʀᴀɴᴅᴇᴅ ᴍᴇɴᴛɪᴏɴ BOT WORKING <<")
 client.run_until_disconnected()
+
+Text iske jaisa hi kar baki sab de ekdam badhiya bana ke
