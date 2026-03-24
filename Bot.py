@@ -23,14 +23,13 @@ spam_chats = []
 
 
 @client.on(events.NewMessage(pattern="^/start$"))
-@client.on(events.NewMessage(pattern="^/start$"))
 async def start(event):
     if not event.is_private:
         return await event.respond("ɪ ᴀᴍ ᴀʟɪᴠᴇ 🥺")
 
     await event.client.send_file(
         event.chat_id,
-        file="https://te.legra.ph/file/c51f9d5400b4d1e2dce09.jpg",
+        file="https://files.catbox.moe/rjk5ma.jpg",
         caption="━━━━━━━━━━━━━━━━━━━━━━━\n\n"
                 "✪ ɪ ᴀᴍ ᴀ ᴛᴇʟᴇɢʀᴀᴍ ᴍᴇɴᴛɪᴏɴ ʙᴏᴛ 🤖\n"
                 "✪ ɪ ᴄᴀɴ ᴛᴀɢ ᴀʟʟ ᴍᴇᴍʙᴇʀs ɪɴ ᴀ ɢʀᴏᴜᴘ\n\n"
@@ -40,11 +39,11 @@ async def start(event):
         buttons=[
             [Button.url("❤️‍🔥 ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ 💫", "https://t.me/Branded_MentionBot?startgroup=true")],
             [
-                Button.url("❤️‍🔥 ꜱᴜᴘᴘᴏʀᴛ 💫", "https://t.me/BRANDED_WORLD"),
-                Button.url("❤️‍🔥 ᴜᴘᴅᴀᴛᴇs 💫", "https://t.me/BRANDRD_BOT")
+                Button.url("❤️‍🔥 ꜱᴜᴘᴘᴏʀᴛ 💫", "https://t.me/BotsSupport_36"),
+                Button.url("❤️‍🔥 ᴜᴘᴅᴀᴛᴇs 💫", "https://t.me/BOTxBOOSTER")
             ],
             [
-                Button.url("❤️‍🔥 ᴏᴡɴᴇʀ 💫", "https://t.me/BRANDEDKING82")
+                Button.url("❤️‍🔥 ᴏᴡɴᴇʀ 💫", "https://t.me/iamthakur007")
             ]
         ]
     )
