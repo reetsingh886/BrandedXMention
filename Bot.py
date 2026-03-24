@@ -53,7 +53,91 @@ async def help(event):
         return await event.respond("ᴅᴇᴀʀ sᴛᴀʀᴛ ᴍᴇ ɪɴ ᴘᴍ ᴛᴏ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ 🥺")
 
     helptext = "✪ ʜᴇʟᴘ ᴍᴇɴᴜ ᴏғ ᴀʟᴇxᴀ ᴍᴇɴᴛɪᴏɴ\n\n" \
-    "✪ ᴄᴏᴍᴍᴀɴᴅ: /mentionall\n" \
+    "✪ ᴄᴏᴍᴍᴀɴᴅ: /mentio@client.on(events.NewMessage(pattern="^(/mentionall|/utag|@all) ?(.*)"))
+async def mentionall(event):
+    chat_id = event.chat_id
+
+    if event.is_private:
+        return await event.respond(
+            "ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴄᴀɴ ʙᴇ ᴜsᴇ ɪɴ ɢʀᴏᴜᴘs ᴀɴᴅ ᴄʜᴀɴɴᴇʟs"
+        )
+
+    # ✅ Admin Check
+    is_admin = False
+    try:
+        partici_ = await client(GetParticipantRequest(chat_id, event.sender_id))
+    except UserNotParticipantError:
+        is_admin = False
+    else:
+        if isinstance(
+            partici_.participant, (ChannelParticipantAdmin, ChannelParticipantCreator)
+        ):
+            is_admin = True
+
+    if not is_admin:
+        return await event.respond("ᴏɴʟʏ ᴀᴅᴍɪɴs ᴄᴀɴ ᴍᴇɴᴛɪᴏɴ ᴀʟʟ")
+
+    # ✅ TEXT HANDLE
+    if event.pattern_match.group(2) and event.is_reply:
+        return await event.respond("ɢɪᴠᴇ ᴍᴇ ᴏɴᴇ ᴀʀɢᴜᴍᴇɴᴛ")
+
+    elif event.pattern_match.group(2):
+        user_text = event.pattern_match.group(2)
+
+    elif event.is_reply:
+        reply_msg = await event.get_reply_message()
+        if reply_msg is None:
+            return await event.respond("ɪ ᴄᴀɴ'ᴛ ᴍᴇɴᴛɪᴏɴ ᴍᴇᴍʙᴇʀs!")
+        user_text = reply_msg.text
+
+    else:
+        return await event.respond("ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴏʀ ɢɪᴠᴇ ᴍᴇ sᴏᴍᴇ ᴛᴇxᴛ")
+
+    spam_chats.append(chat_id)
+
+    usrnum = 0
+    usrtxt = ""
+    done = 0
+
+    async for usr in client.iter_participants(chat_id):
+        if chat_id not in spam_chats:
+            break
+
+        usrnum += 1
+        done += 1
+
+        name = usr.first_name if usr.first_name else "User"
+        usrtxt += f"⊙ [{name}](tg://user?id={usr.id})\n"
+
+        # 🔥 Every 5 users
+        if usrnum == 5:
+            final_text = f"@all {user_text}\n\n{usrtxt}\n📢 TAGGING {done} USERS DONE..."
+
+            await client.send_message(
+                chat_id,
+                final_text,
+                link_preview=False  # 🔥 FIX
+            )
+
+            await asyncio.sleep(2)
+            usrnum = 0
+            usrtxt = ""
+
+    # ✅ LAST LEFT USERS FIX (IMPORTANT)
+    if usrtxt:
+        final_text = f"@all {user_text}\n\n{usrtxt}\n📢 TAGGING {done} USERS DONE..."
+
+        await client.send_message(
+            chat_id,
+            final_text,
+            link_preview=False
+        )
+
+    # ✅ CLEANUP
+    try:
+        spam_chats.remove(chat_id)
+    except:
+        passnall\n" \
     "✪ ᴄᴏᴍᴍᴀɴᴅ: /utag\n" \
     "✪ ᴄᴏᴍᴍᴀɴᴅ: @all\n" \
     "✪ ᴄᴏᴍᴍᴀɴᴅ: /cancel ᴛᴏ ᴄᴀɴᴄᴇʟ ɢᴏɪɴɢ ᴏɴ ᴘʀᴏᴄᴇss.\n" \
@@ -77,73 +161,7 @@ async def help(event):
 
 
 @client.on(events.NewMessage(pattern="^(/mentionall|/utag|@all) ?(.*)"))
-async def mentionall(event):
-    chat_id = event.chat_id
 
-    if event.is_private:
-        return await event.respond(
-            "ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴄᴀɴ ʙᴇ ᴜsᴇ ɪɴ ɢʀᴏᴜᴘs ᴀɴᴅ ᴄʜᴀɴɴᴇʟs"
-        )
-
-    is_admin = False
-    try:
-        partici_ = await client(GetParticipantRequest(chat_id, event.sender_id))
-    except UserNotParticipantError:
-        is_admin = False
-    else:
-        if isinstance(
-            partici_.participant, (ChannelParticipantAdmin, ChannelParticipantCreator)
-        ):
-            is_admin = True
-
-    if not is_admin:
-        return await event.respond("ᴏɴʟʏ ᴀᴅᴍɪɴs ᴄᴀɴ ᴍᴇɴᴛɪᴏɴ ᴀʟʟ")
-
-    # 🔥 TEXT HANDLE
-    if event.pattern_match.group(2) and event.is_reply:
-        return await event.respond("ɢɪᴠᴇ ᴍᴇ ᴏɴᴇ ᴀʀɢᴜᴍᴇɴᴛ")
-
-    elif event.pattern_match.group(2):
-        user_text = event.pattern_match.group(2)
-
-    elif event.is_reply:
-        reply_msg = await event.get_reply_message()
-        if reply_msg == None:
-            return await event.respond("ɪ ᴄᴀɴ'ᴛ ᴍᴇɴᴛɪᴏɴ ᴍᴇᴍʙᴇʀs!")
-        user_text = reply_msg.text
-
-    else:
-        return await event.respond("ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴏʀ ɢɪᴠᴇ ᴍᴇ sᴏᴍᴇ ᴛᴇxᴛ")
-
-    spam_chats.append(chat_id)
-
-    usrnum = 0
-    usrtxt = ""
-    done = 0
-
-    async for usr in client.iter_participants(chat_id):
-        if chat_id not in spam_chats:
-            break
-
-        usrnum += 1
-        done += 1
-
-        name = usr.first_name if usr.first_name else "User"
-        usrtxt += f"⊙ [{name}](tg://user?id={usr.id})\n"
-
-        # 🔥 5 users per batch
-        if usrnum == 5:
-            final_text = f"@all {user_text}\n\n{usrtxt}\n📢 TAGGING {done} USERS DONE..."
-
-            await client.send_message(chat_id, final_text)
-
-            await asyncio.sleep(2)
-            usrnum = 0
-            usrtxt = ""
-
-    try:
-        spam_chats.remove(chat_id)
-    except:
         passnt.on(events.NewMessage(pattern="^/owner$"))
 async def owner(event):
     if not event.is_private:
